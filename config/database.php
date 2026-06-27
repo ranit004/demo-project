@@ -12,7 +12,9 @@ use Illuminate\Support\Str;
 
 return [
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    // On Vercel: DB_CONNECTION=pgsql is set manually in env vars.
+    // Locally: falls back to sqlite (as defined in .env).
+    'default' => env('DB_CONNECTION', 'sqlite'),
 
     'connections' => [
 
@@ -22,6 +24,24 @@ return [
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+        ],
+
+        // PostgreSQL — used on Vercel with Neon.
+        // POSTGRES_* vars are injected automatically by the Vercel/Neon integration.
+        // DB_* vars serve as fallbacks for manual overrides.
+        'pgsql' => [
+            'driver'   => 'pgsql',
+            'url'      => env('POSTGRES_URL', env('DATABASE_URL')),
+            'host'     => env('POSTGRES_HOST',     env('DB_HOST',     '127.0.0.1')),
+            'port'     => env('POSTGRES_PORT',     env('DB_PORT',     '5432')),
+            'database' => env('POSTGRES_DATABASE', env('DB_DATABASE', 'forge')),
+            'username' => env('POSTGRES_USER',     env('DB_USERNAME', 'forge')),
+            'password' => env('POSTGRES_PASSWORD', env('DB_PASSWORD', '')),
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'prefix_indexes' => true,
+            'search_path'    => 'public',
+            'sslmode'        => 'require',
         ],
 
         'mysql' => [
