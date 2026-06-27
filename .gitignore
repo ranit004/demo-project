@@ -16,3 +16,22 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# SQLite local database
+/database/database.sqlite
+/database/database.sqlite-wal
+/database/database.sqlite-shm
+
+# Laravel storage runtime files (logs, cache, sessions, compiled views)
+/storage/logs/*.log
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/testing/
+/storage/framework/views/
+/storage/app/public/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
