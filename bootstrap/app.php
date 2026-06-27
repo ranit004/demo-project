@@ -17,6 +17,10 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
+    // On Vercel, the filesystem is read-only except /tmp.
+    // api/index.php sets APP_STORAGE=/tmp/storage before booting.
+    // Locally this env var is absent, so we fall back to storage/.
+    ->useStoragePath(env('APP_STORAGE', dirname(__DIR__) . '/storage'))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
